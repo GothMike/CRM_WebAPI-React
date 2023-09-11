@@ -2,14 +2,25 @@ using CRM_WebAPI_React.Data.Repositories.Interfaces;
 using CRM_WebAPI_React.Data.Repositories;
 using CRM_WebAPI_React.Persistence.DataContext;
 using Microsoft.EntityFrameworkCore;
+using CRM_WebAPI_React.Persistence.UnitOfWork;
+using CRM_WebAPI_React.Persistence.Fabric.Interfaces;
+using CRM_WebAPI_React.Persistence.Factory;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()   
+    .AddFluentValidation(c =>
+    c.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
+builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
