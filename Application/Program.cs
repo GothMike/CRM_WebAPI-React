@@ -1,15 +1,18 @@
+using CRM_WebAPI_React.Data.Repositories.Interfaces;
+using CRM_WebAPI_React.Data.Repositories;
 using CRM_WebAPI_React.Persistence.DataContext;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {

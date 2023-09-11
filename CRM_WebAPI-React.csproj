@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Data\Repositories\Interfaces\" />
     <Folder Include="Data\Services\Interfaces\" />
     <Folder Include="Data\Validators\" />
   </ItemGroup>
