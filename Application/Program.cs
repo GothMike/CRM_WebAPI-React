@@ -7,6 +7,8 @@ using CRM_WebAPI_React.Persistence.Fabric.Interfaces;
 using CRM_WebAPI_React.Persistence.Factory;
 using FluentValidation.AspNetCore;
 using System.Reflection;
+using CRM_WebAPI_React.Data.Services.Interfaces;
+using CRM_WebAPI_React.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +18,9 @@ builder.Services.AddControllers()
     c.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
