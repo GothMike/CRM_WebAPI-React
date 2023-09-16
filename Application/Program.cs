@@ -1,15 +1,37 @@
+using CRM_WebAPI_React.Data.Repositories.Interfaces;
+using CRM_WebAPI_React.Data.Repositories;
 using CRM_WebAPI_React.Persistence.DataContext;
 using Microsoft.EntityFrameworkCore;
+using CRM_WebAPI_React.Persistence.UnitOfWork;
+using CRM_WebAPI_React.Persistence.Fabric.Interfaces;
+using CRM_WebAPI_React.Persistence.Factory;
+using FluentValidation.AspNetCore;
+using System.Reflection;
+using CRM_WebAPI_React.Data.Services.Interfaces;
+using CRM_WebAPI_React.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddControllers()   
+    .AddFluentValidation(c =>
+    c.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Сервисы
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IPositionService, PositionService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+
+// Репозитории и обработка данных
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
