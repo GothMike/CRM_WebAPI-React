@@ -1,0 +1,95 @@
+.sidebar {
+  background-color: var(--background-color-menu);
+  color: var(--primary-color);
+  font-family: verdana;
+  font-size: 14px;
+  font-weight: 200;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 20%;
+  height: 100%;
+  transition: all 0.5s;
+  z-index: 1;
+
+  &_closed {
+    width: 7%;
+  }
+  &__title {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    background-color: #225e8a;
+    line-height: 100px;
+  }
+  &__btn {
+    width: 100%;
+    display: flex;
+    position: absolute;
+    bottom: 0px;
+    justify-content: flex-end;
+  }
+  &__close {
+    border: none;
+    background-color: var(--background-color-menu);
+    cursor: pointer;
+    transform: rotate(180deg);
+    &_reverse {
+      transform: rotate(0deg);
+    }
+  }
+  &__logo {
+    display: flex;
+    justify-content: center;
+    background-color: #225e8a;
+    width: 100%;
+    height: 150px;
+    img {
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &__items {
+    opacity: 1;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    line-height: 35px;
+    cursor: pointer;
+    transition: all 0.5s;
+    &_closed {
+      opacity: 0;
+    }
+  }
+
+  &__item {
+    padding: 15px 0 15px 15px;
+    transition: all 0.5s;
+    border-bottom: 1px solid #4d5c6e;
+    transition: all 0.5s;
+    &:hover {
+      background-color: var(--hover-color);
+    }
+    &_active {
+      background-color: var(--hover-color);
+    }
+  }
+  &__overlay {
+    display: block;
+    position: fixed;
+    opacity: 0;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--hover-color);
+    transition: all 0.3s;
+    visibility: hidden;
+    &_active {
+      visibility: visible;
+      opacity: 0.5;
+      z-index: 0;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+@import url(./variables.scss);
+
+@import url(../components/menu/styles/menu.scss);
+@import url(../components/menu/styles/media.scss);
+
+body {
+  background-color: var(--background-color);
+  outline: 1px solid lightgreen;
+}

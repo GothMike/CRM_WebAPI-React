@@ -1,7 +1,5 @@
 ﻿using CRM_WebAPI_React.Data.Dto;
-using CRM_WebAPI_React.Data.Services;
 using CRM_WebAPI_React.Data.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM_WebAPI_React.Controllers
