@@ -11,6 +11,8 @@
   height: 100%;
   transition: all 0.5s;
   z-index: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   &_closed {
     width: 7%;
