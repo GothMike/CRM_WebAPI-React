@@ -8,7 +8,6 @@ const response = fetch("https://localhost:3001/api/Department", {
   method: "GET",
   headers: {
     "Content-Type": "application/json",
-    // Другие заголовки, если необходимо
   },
 })
   .then((response) => {
@@ -18,11 +17,9 @@ const response = fetch("https://localhost:3001/api/Department", {
     return response.json();
   })
   .then((data) => {
-    // Обработка данных после успешного запроса
     console.log(data);
   })
   .catch((error) => {
-    // Обработка ошибок
     console.error("There was a problem with the fetch operation:", error);
   });
 
@@ -44,13 +41,13 @@ const Sidebar = () => {
     };
   }, []);
 
-  const arrowMenuWidth = windowWidth < 768 ? "50px" : "75px";
-  const arrowMenuHeight = windowWidth < 768 ? "50px" : "75px";
-
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
     console.log(sidebarIsOpen);
   };
+
+  const arrowMenuWidth = windowWidth < 768 ? "50px" : "75px";
+  const arrowMenuHeight = windowWidth < 768 ? "50px" : "75px";
 
   const sidebarClosed = sidebarIsOpen ? "sidebar_closed" : "";
   const sidebarItems = sidebarIsOpen ? "sidebar__items_closed" : "";

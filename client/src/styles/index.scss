@@ -1,9 +1,16 @@
 @import url(./variables.scss);
 
-@import url(../components/menu/styles/menu.scss);
-@import url(../components/menu/styles/media.scss);
+@import url(../components/sidebar/styles/sidebar.scss);
+@import url(../components/sidebar/styles/media.scss);
+
+@import url(../components/searchPanel/searchPanel.scss);
 
 body {
   background-color: var(--background-color);
   outline: 1px solid lightgreen;
+  margin: 0 0;
+}
+
+.App {
+  display: flex;
 }
