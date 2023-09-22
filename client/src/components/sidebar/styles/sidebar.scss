@@ -14,7 +14,13 @@
   overflow-y: auto;
   overflow-x: hidden;
   position: sticky;
-
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 40vh;
+    background-color: var(--background-color-header);
+  }
   &_closed {
     width: 7%;
   }
@@ -22,7 +28,7 @@
     display: flex;
     justify-content: center;
     font-size: 18px;
-    background-color: #225e8a;
+    background-color: var(--background-color-header);
     line-height: 100px;
   }
   &__btn {
@@ -44,7 +50,7 @@
   &__logo {
     display: flex;
     justify-content: center;
-    background-color: #225e8a;
+    background-color: var(--background-color-header);
     width: 100%;
     height: 150px;
     img {

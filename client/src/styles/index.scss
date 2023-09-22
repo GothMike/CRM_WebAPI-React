@@ -3,11 +3,11 @@
 @import url(../components/sidebar/styles/sidebar.scss);
 @import url(../components/sidebar/styles/media.scss);
 
-@import url(../components/searchPanel/searchPanel.scss);
+@import url(../components/searchPanel/styles/searchPanel.scss);
+@import url(../components//searchPanel/styles/media.scss);
 
 body {
   background-color: var(--background-color);
-  outline: 1px solid lightgreen;
   margin: 0 0;
 }
 

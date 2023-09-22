@@ -26,7 +26,7 @@ const response = fetch("https://localhost:3001/api/Department", {
 console.log(response);
 
 const Sidebar = () => {
-  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -57,10 +57,12 @@ const Sidebar = () => {
   return (
     <>
       <nav className={`sidebar ${sidebarClosed}`}>
-        <div className="sidebar__logo">
-          <img src={Logo} alt="logo" />
+        <div className="sidebar__wrapper">
+          <div className="sidebar__logo">
+            <img src={Logo} alt="logo" />
+          </div>
+          <div className="sidebar__title">StaffPulse</div>
         </div>
-        <div className="sidebar__title">StaffPulse</div>
         <ul className={`sidebar__items ${sidebarItems}`}>
           <li className="sidebar__item sidebar__item_active">Департаменты</li>
           <li className="sidebar__item">Должности</li>
