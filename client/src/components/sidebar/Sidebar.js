@@ -6,27 +6,6 @@ import { toogleSidebar } from "../searchPanel/searchPanelSlice";
 import { ReactComponent as ArrowMenu } from "../../assets/arrow-sidebar.svg";
 import Logo from "../../assets/CRM_logo.webp";
 
-// const response = fetch("https://localhost:3001/api/Department", {
-//   method: "GET",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// })
-//   .then((response) => {
-//     if (!response.ok) {
-//       throw new Error("Network response was not ok");
-//     }
-//     return response.json();
-//   })
-//   .then((data) => {
-//     console.log(data);
-//   })
-//   .catch((error) => {
-//     console.error("There was a problem with the fetch operation:", error);
-//   });
-
-// console.log(response);
-
 const Sidebar = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const hiddenSidebar = useSelector((state) => state.searchPanel);

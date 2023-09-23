@@ -5,7 +5,6 @@ const searchPanelSlice = createSlice({
   initialState: false,
   reducers: {
     toogleSidebar: (state) => !state,
-    setStatusSidebar: (state, action) => action.payload,
   },
 });
 
@@ -13,4 +12,4 @@ const { actions, reducer } = searchPanelSlice;
 
 export default reducer;
 
-export const { toogleSidebar, setStatusSidebar } = actions;
+export const { toogleSidebar } = actions;

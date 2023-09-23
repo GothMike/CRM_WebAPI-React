@@ -1,4 +1,6 @@
 .searchPanel {
+  position: sticky;
+  top: 0;
   width: 100%;
   box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.15);
   color: var(--primary-color);
@@ -7,19 +9,18 @@
   justify-content: center;
   align-items: center;
   transition: all;
+  z-index: 1;
   &_hidden {
     animation: hideElement 0.1s ease-in-out forwards;
   }
   &__wrapper {
-    height: 90%;
-    width: 98%;
+    height: 100%;
+    width: 100%;
     background-color: var(--background-color-menu);
     display: grid;
     grid-template-columns: 2fr 4fr 5fr;
     grid-template-rows: 1fr 2fr 3fr;
     align-items: center;
-    box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
   }
   &__title {
     grid-area: 2 / 1 / 2 / 3;

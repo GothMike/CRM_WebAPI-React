@@ -3,11 +3,10 @@ import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 
+import DataFilter from "../dataFilter/DataFilter";
 import { useSelector } from "react-redux";
 
 const SearchPanel = () => {
-  // Прописать Redux state, когда открывается в меню в мобильной версии, исчезал весь остальной интерфейс
-
   const hiddenSidebar = useSelector((state) => state.searchPanel);
 
   return (
@@ -22,12 +21,8 @@ const SearchPanel = () => {
               aria-describedby="basic-addon2"
               className="searchPanel__search"
             />
-            <Button variant="warning">Поиск </Button>{" "}
-            <Form.Select aria-label="Выберите фильтр">
-              <option value="1">Выберите фильтр</option>
-              <option value="1">От А до Я</option>
-              <option value="2">От Я до А</option>
-            </Form.Select>
+            <Button variant="warning">Поиск </Button>
+            <DataFilter />
           </InputGroup>
         </div>
         <Dropdown className="searchPanel__action">

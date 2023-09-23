@@ -1,0 +1,12 @@
+.table {
+  thead {
+    position: sticky;
+    top: 40vh;
+  }
+  tr {
+    width: 100px;
+  }
+  &__checkbox {
+    width: 50px;
+  }
+}

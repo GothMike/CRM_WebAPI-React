@@ -7,6 +7,8 @@
 @import url(../components/searchPanel/styles/searchPanel.scss);
 @import url(../components//searchPanel/styles/media.scss);
 
+@import url(../components/dataList/styles/table.scss);
+
 body {
   background-color: var(--background-color);
   margin: 0 0;
@@ -14,4 +16,11 @@ body {
 
 .App {
   display: flex;
+}
+
+.Main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
