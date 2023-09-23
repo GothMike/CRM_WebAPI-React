@@ -59,6 +59,34 @@
 
 @media (max-width: 550px) {
   .searchPanel {
+    &__wrapper {
+      height: 100%;
+    }
+    &__form {
+      margin: 0;
+      padding: 15px;
+    }
+    &__title {
+      grid-area: 1/1/1/7;
+      font-size: 12px;
+    }
+    &__form {
+      grid-area: 3/1/4/6;
+      button {
+        margin: inherit;
+      }
+      select {
+        width: 100% !important;
+        margin: inherit;
+      }
+    }
+    &__action {
+      grid-area: 2/3/3/6;
+    }
+    &__search {
+      width: 60% !important;
+      margin: inherit;
+    }
   }
 }
 

@@ -5,7 +5,7 @@
   font-family: verdana;
   font-size: 14px;
   font-weight: 200;
-  top: 0px;
+  top: 0;
   left: 0px;
   height: 100vh;
   transition: all 0.5s;
@@ -68,6 +68,7 @@
     transition: all 0.5s;
     &_closed {
       opacity: 0;
+      cursor: default;
     }
   }
 

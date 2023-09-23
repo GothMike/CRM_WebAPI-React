@@ -3,10 +3,15 @@ import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 
+import { useSelector } from "react-redux";
+
 const SearchPanel = () => {
   // Прописать Redux state, когда открывается в меню в мобильной версии, исчезал весь остальной интерфейс
+
+  const hiddenSidebar = useSelector((state) => state.searchPanel);
+
   return (
-    <section className="searchPanel">
+    <section className={`searchPanel ${!hiddenSidebar ? "searchPanel_hidden" : ""} `}>
       <div className="searchPanel__wrapper">
         <div className="searchPanel__title">Добро пожаловать в CRM "StaffPulse"</div>
         <div className="searchPanel__form">

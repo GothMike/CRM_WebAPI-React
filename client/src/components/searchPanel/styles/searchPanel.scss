@@ -6,6 +6,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all;
+  &_hidden {
+    animation: hideElement 0.1s ease-in-out forwards;
+  }
   &__wrapper {
     height: 90%;
     width: 98%;

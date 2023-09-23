@@ -1,33 +1,36 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toogleSidebar } from "../searchPanel/searchPanelSlice";
 
 import { ReactComponent as ArrowMenu } from "../../assets/arrow-sidebar.svg";
 import Logo from "../../assets/CRM_logo.webp";
 
-const response = fetch("https://localhost:3001/api/Department", {
-  method: "GET",
-  headers: {
-    "Content-Type": "application/json",
-  },
-})
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((error) => {
-    console.error("There was a problem with the fetch operation:", error);
-  });
+// const response = fetch("https://localhost:3001/api/Department", {
+//   method: "GET",
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// })
+//   .then((response) => {
+//     if (!response.ok) {
+//       throw new Error("Network response was not ok");
+//     }
+//     return response.json();
+//   })
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((error) => {
+//     console.error("There was a problem with the fetch operation:", error);
+//   });
 
-console.log(response);
+// console.log(response);
 
 const Sidebar = () => {
-  const [sidebarIsOpen, setSidebarIsOpen] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const hiddenSidebar = useSelector((state) => state.searchPanel);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,17 +45,16 @@ const Sidebar = () => {
   }, []);
 
   const toggleSidebar = () => {
-    setSidebarIsOpen(!sidebarIsOpen);
-    console.log(sidebarIsOpen);
+    dispatch(toogleSidebar());
   };
 
   const arrowMenuWidth = windowWidth < 768 ? "50px" : "75px";
   const arrowMenuHeight = windowWidth < 768 ? "50px" : "75px";
 
-  const sidebarClosed = sidebarIsOpen ? "sidebar_closed" : "";
-  const sidebarItems = sidebarIsOpen ? "sidebar__items_closed" : "";
-  const sidebarBtn = sidebarIsOpen ? "sidebar__close_reverse" : "";
-  const sidebarOverlay = !sidebarIsOpen ? "sidebar__overlay_active" : "";
+  const sidebarClosed = hiddenSidebar ? "sidebar_closed" : "";
+  const sidebarItems = hiddenSidebar ? "sidebar__items_closed" : "";
+  const sidebarBtn = hiddenSidebar ? "sidebar__close_reverse" : "";
+  const sidebarOverlay = !hiddenSidebar ? "sidebar__overlay_active" : "";
 
   return (
     <>
