@@ -45,7 +45,7 @@ const Sidebar = () => {
           </Link>
           <div className="sidebar__title">StaffPulse</div>
         </div>
-        <ul className={`sidebar__items ${sidebarItems}`}>
+        <div className={`sidebar__items ${sidebarItems}`}>
           <NavLink
             style={({ isActive }) => ({
               backgroundColor: isActive ? " var(--hover-color)" : "",
@@ -74,7 +74,7 @@ const Sidebar = () => {
           >
             Сотрудники
           </NavLink>
-        </ul>
+        </div>
         <div className="sidebar__btn">
           <button onClick={toggleSidebar} className={`sidebar__close ${sidebarBtn}`}>
             <ArrowMenu width={arrowMenuWidth} height={arrowMenuHeight} />

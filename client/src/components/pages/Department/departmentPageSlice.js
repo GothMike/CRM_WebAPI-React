@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { useHttp } from "../../hooks/http.hook";
+import { useHttp } from "../../../hooks/http.hook";
 
 const initialState = {
   data: [],
@@ -11,18 +11,8 @@ export const fetchDepartments = createAsyncThunk("departments/fetchDepartments",
   return request("https://localhost:3001/api/Department");
 });
 
-export const fetchPosition = createAsyncThunk("positions/fetchPositions", () => {
-  const { request } = useHttp();
-  return request("https://localhost:3001/api/Position");
-});
-
-export const fetchEmployee = createAsyncThunk("employee/fetchEmployees", () => {
-  const { request } = useHttp();
-  return request("https://localhost:3001/api/Employee");
-});
-
-const dataListSlice = createSlice({
-  name: "dataList",
+const departmentPageSlice = createSlice({
+  name: "departmentPage",
   initialState,
   reducers: {
     dataListFetching: (state) => {
@@ -52,7 +42,7 @@ const dataListSlice = createSlice({
   },
 });
 
-const { actions, reducer } = dataListSlice;
+const { actions, reducer } = departmentPageSlice;
 
 export default reducer;
 

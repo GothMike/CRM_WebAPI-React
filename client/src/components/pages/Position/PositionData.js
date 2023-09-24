@@ -1,18 +1,18 @@
-import { useHttp } from "../../hooks/http.hook";
+import { useHttp } from "../../../hooks/http.hook";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 
-import { fetchDepartments, fetchPosition, fetchEmployee } from "./dataListSlice";
+import { fetchPositions } from "./positionPageSlice";
 import Form from "react-bootstrap/Form";
 
 import Spinner from "react-bootstrap/Spinner";
 import Table from "react-bootstrap/Table";
 
-const DataList = () => {
+const PositionData = () => {
   const filteredDataSelector = createSelector(
     (state) => state.dataFilter.activeFilter,
-    (state) => state.dataList.data,
+    (state) => state.positionPage.data,
     (state) => state.dataSearch.term,
     (filter, data, term) => {
       switch (filter) {
@@ -28,6 +28,12 @@ const DataList = () => {
     }
   );
 
+  useEffect(() => {
+    dispatch(fetchPositions(request));
+
+    // eslint-disable-next-line
+  }, []);
+
   const searchData = (items, term) => {
     if (term.length === 0) {
       return items;
@@ -38,15 +44,9 @@ const DataList = () => {
   };
 
   const filteredData = useSelector(filteredDataSelector);
-  const { dataLoadingStatus } = useSelector((state) => state.dataList);
+  const { dataLoadingStatus } = useSelector((state) => state.positionPage);
   const dispatch = useDispatch();
   const { request } = useHttp();
-
-  useEffect(() => {
-    dispatch(fetchDepartments(request));
-
-    // eslint-disable-next-line
-  }, []);
 
   const renderData = (arr) => {
     if (arr.length === 0) {
@@ -99,4 +99,4 @@ const DataList = () => {
   }
 };
 
-export default DataList;
+export default PositionData;

@@ -17,8 +17,8 @@ const DataSearch = () => {
       <Form.Control
         value={enteredData}
         onChange={onUpdateSearch}
-        placeholder="Найти департамент"
-        aria-label="Найти департамент"
+        placeholder="Найти"
+        aria-label="Найти"
         aria-describedby="basic-addon2"
         className="searchPanel__search"
       />
