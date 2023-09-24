@@ -13,22 +13,32 @@ const DataList = () => {
   const filteredDataSelector = createSelector(
     (state) => state.dataFilter.activeFilter,
     (state) => state.dataList.data,
-    (filter, data) => {
+    (state) => state.dataSearch.term,
+    (filter, data, term) => {
       switch (filter) {
         case "default":
-          return data;
+          return searchEmp(data, term);
         case "asc":
-          return [...data].sort((a, b) => a.name.localeCompare(b.name));
+          return searchEmp([...data], term).sort((a, b) => a.name.localeCompare(b.name));
         case "desc":
-          return [...data].sort((a, b) => b.name.localeCompare(a.name));
+          return searchEmp([...data], term).sort((a, b) => b.name.localeCompare(a.name));
         default:
           return data;
       }
     }
   );
 
+  const searchEmp = (items, term) => {
+    if (term.length === 0) {
+      return items;
+    }
+    return items.filter((item) => {
+      return item.name.indexOf(term) > -1;
+    });
+  };
+
   const filteredData = useSelector(filteredDataSelector);
-  const { data, dataLoadingStatus } = useSelector((state) => state.dataList);
+  const { dataLoadingStatus } = useSelector((state) => state.dataList);
   const dispatch = useDispatch();
   const { request } = useHttp();
 

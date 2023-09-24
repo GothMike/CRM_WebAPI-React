@@ -1,8 +1,7 @@
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 
+import DataSearch from "../dataSearch/DataSearch";
 import DataFilter from "../dataFilter/DataFilter";
 import { useSelector } from "react-redux";
 
@@ -15,13 +14,7 @@ const SearchPanel = () => {
         <div className="searchPanel__title">Добро пожаловать в CRM "StaffPulse"</div>
         <div className="searchPanel__form">
           <InputGroup className="mb-3 searchPanel__input">
-            <Form.Control
-              placeholder="Найти департамент"
-              aria-label="Найти департамент"
-              aria-describedby="basic-addon2"
-              className="searchPanel__search"
-            />
-            <Button variant="warning">Поиск </Button>
+            <DataSearch />
             <DataFilter />
           </InputGroup>
         </div>
