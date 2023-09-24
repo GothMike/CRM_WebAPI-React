@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toogleSidebar } from "../searchPanel/searchPanelSlice";
 
+import { Link, NavLink } from "react-router-dom";
 import { ReactComponent as ArrowMenu } from "../../assets/arrow-sidebar.svg";
 import Logo from "../../assets/CRM_logo.webp";
 
@@ -39,15 +40,40 @@ const Sidebar = () => {
     <>
       <nav className={`sidebar ${sidebarClosed}`}>
         <div className="sidebar__wrapper">
-          <div className="sidebar__logo">
+          <Link to="/" className="sidebar__logo">
             <img src={Logo} alt="logo" />
-          </div>
+          </Link>
           <div className="sidebar__title">StaffPulse</div>
         </div>
         <ul className={`sidebar__items ${sidebarItems}`}>
-          <li className="sidebar__item sidebar__item_active">Департаменты</li>
-          <li className="sidebar__item">Должности</li>
-          <li className="sidebar__item">Сотрудники</li>
+          <NavLink
+            style={({ isActive }) => ({
+              backgroundColor: isActive ? " var(--hover-color)" : "",
+            })}
+            to="/"
+            className={`sidebar__item`}
+          >
+            Департаменты
+          </NavLink>
+          <NavLink
+            style={({ isActive }) => ({
+              backgroundColor: isActive ? " var(--hover-color)" : "",
+            })}
+            to="/position"
+            className={`sidebar__item ${({ isActive }) =>
+              isActive ? "sidebar__item_active" : ""}`}
+          >
+            Должности
+          </NavLink>
+          <NavLink
+            style={({ isActive }) => ({
+              backgroundColor: isActive ? " var(--hover-color)" : "",
+            })}
+            to="/employee"
+            className={`sidebar__item`}
+          >
+            Сотрудники
+          </NavLink>
         </ul>
         <div className="sidebar__btn">
           <button onClick={toggleSidebar} className={`sidebar__close ${sidebarBtn}`}>

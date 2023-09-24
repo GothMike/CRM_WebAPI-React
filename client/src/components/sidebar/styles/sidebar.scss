@@ -59,6 +59,8 @@
     }
   }
   &__items {
+    display: flex;
+    flex-direction: column;
     opacity: 1;
     list-style: none;
     padding: 0px;
@@ -71,12 +73,12 @@
       cursor: default;
     }
   }
-
   &__item {
-    padding: 15px 0 15px 15px;
+    padding: 20px 0 15px 15px;
     transition: all 0.5s;
     border-bottom: 1px solid #4d5c6e;
-    transition: all 0.5s;
+    color: var(--primary-color);
+    text-decoration: none;
     &:hover {
       background-color: var(--hover-color);
     }

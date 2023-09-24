@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 
-import { fetchDepartments } from "./dataListSlice";
+import { fetchDepartments, fetchPosition, fetchEmployee } from "./dataListSlice";
 import Form from "react-bootstrap/Form";
 
 import Spinner from "react-bootstrap/Spinner";
@@ -17,18 +17,18 @@ const DataList = () => {
     (filter, data, term) => {
       switch (filter) {
         case "default":
-          return searchEmp(data, term);
+          return searchData(data, term);
         case "asc":
-          return searchEmp([...data], term).sort((a, b) => a.name.localeCompare(b.name));
+          return searchData([...data], term).sort((a, b) => a.name.localeCompare(b.name));
         case "desc":
-          return searchEmp([...data], term).sort((a, b) => b.name.localeCompare(a.name));
+          return searchData([...data], term).sort((a, b) => b.name.localeCompare(a.name));
         default:
-          return data;
+          return searchData(data, term);
       }
     }
   );
 
-  const searchEmp = (items, term) => {
+  const searchData = (items, term) => {
     if (term.length === 0) {
       return items;
     }
