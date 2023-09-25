@@ -1,10 +1,9 @@
 import { useHttp } from "../../../hooks/http.hook";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 
-import { fetchDepartments } from "./departmentPageSlice";
-import Form from "react-bootstrap/Form";
+import { fetchDepartments, departmentDeleted } from "./departmentPageSlice";
 
 import Spinner from "react-bootstrap/Spinner";
 import Table from "react-bootstrap/Table";
@@ -27,6 +26,13 @@ const DepartmentData = () => {
       }
     }
   );
+
+  const onDelete = useCallback((id) => {
+    request(`https://localhost:3001/api/Department/${id}`, "DELETE")
+      .then((data) => console.log(data, "Deleted"))
+      .then(dispatch(departmentDeleted(id)))
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
     dispatch(fetchDepartments(request));
@@ -52,7 +58,7 @@ const DepartmentData = () => {
     if (arr.length === 0) {
       return (
         <tr className="table__info">
-          <td colSpan={4}>На текущий момент нет информации</td>
+          <td colSpan={5}>На текущий момент нет информации</td>
         </tr>
       );
     }
@@ -60,13 +66,18 @@ const DepartmentData = () => {
     return arr.map(({ id, ...props }) => {
       return (
         <tr key={id}>
-          <td>
-            <Form.Check aria-label="option 1" className="table__checkbox" />
-          </td>
           <td className="table__id">{id}</td>
           <td>{props.name}</td>
           <td>0</td>
           <td>0</td>
+          <td>
+            <button onClick={() => onDelete(id)} type="button" className="btn-trash btn-sm ">
+              <i className="fas fa-trash"></i>
+            </button>
+            <button>
+              <i class="fa-regular fa-pen-to-square"></i>
+            </button>
+          </td>
         </tr>
       );
     });
@@ -84,11 +95,11 @@ const DepartmentData = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Выделение</th>
               <th>ID</th>
               <th>Название</th>
               <th>Количество сотрудников</th>
               <th>Количество менеджеров</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>{elements}</tbody>

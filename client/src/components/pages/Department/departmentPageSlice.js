@@ -15,6 +15,12 @@ const departmentPageSlice = createSlice({
   name: "departmentPage",
   initialState,
   reducers: {
+    departmentCreated: (state, action) => {
+      state.data.push(action.payload);
+    },
+    departmentDeleted: (state, action) => {
+      state.data = state.data.filter((item) => item.id !== action.payload);
+    },
     dataListFetching: (state) => {
       state.dataLoadingStatus = "loading";
     },
@@ -46,4 +52,10 @@ const { actions, reducer } = departmentPageSlice;
 
 export default reducer;
 
-export const { dataListFetching, dataListFetched, dataListFetchingError } = actions;
+export const {
+  dataListFetching,
+  dataListFetched,
+  dataListFetchingError,
+  departmentCreated,
+  departmentDeleted,
+} = actions;

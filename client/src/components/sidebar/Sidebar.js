@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toogleSidebar } from "../searchPanel/searchPanelSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Link, NavLink } from "react-router-dom";
 import { ReactComponent as ArrowMenu } from "../../assets/arrow-sidebar.svg";
@@ -53,6 +54,7 @@ const Sidebar = () => {
             to="/"
             className={`sidebar__item`}
           >
+            <FontAwesomeIcon icon="fa-solid fa-building-user" size="2xl" />
             Департаменты
           </NavLink>
           <NavLink
@@ -63,6 +65,7 @@ const Sidebar = () => {
             className={`sidebar__item ${({ isActive }) =>
               isActive ? "sidebar__item_active" : ""}`}
           >
+            <FontAwesomeIcon icon="fa-solid fa-sitemap" size="2xl" />
             Должности
           </NavLink>
           <NavLink
@@ -72,6 +75,7 @@ const Sidebar = () => {
             to="/employee"
             className={`sidebar__item`}
           >
+            <FontAwesomeIcon icon="fa-solid fa-person " size="2xl" />
             Сотрудники
           </NavLink>
         </div>

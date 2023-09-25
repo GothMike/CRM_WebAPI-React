@@ -7,6 +7,8 @@
 @import url(../components/searchPanel/styles/searchPanel.scss);
 @import url(../components//searchPanel/styles/media.scss);
 
+@import url(../components//dataActions/form.scss);
+
 body {
   background-color: var(--background-color);
   margin: 0 0;
@@ -33,5 +35,16 @@ body {
   }
   &__checkbox {
     width: 50px;
+  }
+  button {
+    width: 35px;
+    height: 35px;
+    margin: 3px;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-trash {
+    color: #e5383b;
   }
 }

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 
 import { fetchPositions } from "./positionPageSlice";
-import Form from "react-bootstrap/Form";
 
 import Spinner from "react-bootstrap/Spinner";
 import Table from "react-bootstrap/Table";
@@ -60,9 +59,6 @@ const PositionData = () => {
     return arr.map(({ id, ...props }) => {
       return (
         <tr key={id}>
-          <td>
-            <Form.Check aria-label="option 1" className="table__checkbox" />
-          </td>
           <td className="table__id">{id}</td>
           <td>{props.name}</td>
           <td>0</td>
@@ -84,7 +80,6 @@ const PositionData = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Выделение</th>
               <th>ID</th>
               <th>Название</th>
               <th>Количество сотрудников</th>
