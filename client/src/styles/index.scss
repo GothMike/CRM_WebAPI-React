@@ -7,7 +7,7 @@
 @import url(../components/searchPanel/styles/searchPanel.scss);
 @import url(../components//searchPanel/styles/media.scss);
 
-@import url(../components//dataActions/form.scss);
+// @import url(../components//dataActions/form.scss);
 
 body {
   background-color: var(--background-color);
@@ -45,6 +45,37 @@ body {
     cursor: pointer;
   }
   .btn-trash {
+    color: #e5383b;
+  }
+}
+
+.form {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 300px;
+  color: var(--primary-color);
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--background-color-menu);
+  visibility: hidden;
+  transition: all 0.5s;
+  opacity: 0;
+
+  &_active {
+    visibility: visible;
+    opacity: 1;
+  }
+  .btn-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 15px;
+  }
+  .list-group-item .btn-trash {
     color: #e5383b;
   }
 }

@@ -2,7 +2,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 import DataSearch from "../dataSearch/DataSearch";
 import DataFilter from "../dataFilter/DataFilter";
-import DataActions from "../dataActions/DataActions";
 import { useSelector } from "react-redux";
 
 const SearchPanel = () => {
@@ -18,7 +17,6 @@ const SearchPanel = () => {
             <DataFilter />
           </InputGroup>
         </div>
-        <DataActions />
       </div>
     </section>
   );

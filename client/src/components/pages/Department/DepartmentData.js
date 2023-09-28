@@ -1,9 +1,14 @@
 import { useHttp } from "../../../hooks/http.hook";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
+import { createPortal } from "react-dom";
 
-import { fetchDepartments, departmentDeleted } from "./departmentPageSlice";
+import CloseButton from "react-bootstrap/CloseButton";
+import Button from "react-bootstrap/Button";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { fetchDepartments, departmentDeleted, departmentCreated } from "./departmentPageSlice";
 
 import Spinner from "react-bootstrap/Spinner";
 import Table from "react-bootstrap/Table";
@@ -27,6 +32,35 @@ const DepartmentData = () => {
     }
   );
 
+  const [departmentName, setDepartmentName] = useState("");
+
+  const [actionWindowIsOpened, setActionWindowIsOpened] = useState(false);
+
+  const onFormOpen = () => {
+    setActionWindowIsOpened(!actionWindowIsOpened);
+  };
+
+  const onCreate = (e) => {
+    e.preventDefault();
+
+    const newDepartment = {
+      id: 0,
+      name: departmentName,
+    };
+    console.log(newDepartment);
+
+    request("https://localhost:3001/api/Department", "POST", JSON.stringify(newDepartment))
+      .then((res) => console.log(res, "Отправка успешна"))
+      .then(dispatch(departmentCreated(newDepartment)))
+      .catch((err) => console.log(err));
+
+    console.log(JSON.stringify(newDepartment));
+    dispatch(fetchDepartments(request));
+
+    setDepartmentName("");
+    setActionWindowIsOpened(!actionWindowIsOpened);
+  };
+
   const onDelete = useCallback((id) => {
     request(`https://localhost:3001/api/Department/${id}`, "DELETE")
       .then((data) => console.log(data, "Deleted"))
@@ -36,8 +70,6 @@ const DepartmentData = () => {
 
   useEffect(() => {
     dispatch(fetchDepartments(request));
-
-    // eslint-disable-next-line
   }, []);
 
   const searchData = (items, term) => {
@@ -92,18 +124,53 @@ const DepartmentData = () => {
       return <h5 className="text-center mt-5">Ошибка загрузки</h5>;
     case "idle":
       return (
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Название</th>
-              <th>Количество сотрудников</th>
-              <th>Количество менеджеров</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>{elements}</tbody>
-        </Table>
+        <>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Количество сотрудников</th>
+                <th>Количество менеджеров</th>
+                <th>
+                  <Button onClick={onFormOpen} variant="warning">
+                    <FontAwesomeIcon icon="fa-solid fa-user-plus" />
+                  </Button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>{elements}</tbody>
+          </Table>
+          {createPortal(
+            <form
+              className={`border p-4 shadow-lg rounded form ${
+                actionWindowIsOpened ? "form_active" : ""
+              }`}
+              onSubmit={onCreate}
+            >
+              <CloseButton onClick={onFormOpen} />
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label fs-4">
+                  Название департамента
+                </label>
+                <input
+                  required
+                  value={departmentName}
+                  onChange={(e) => setDepartmentName(e.target.value)}
+                  type="text"
+                  name="name"
+                  className="form-control"
+                  id="name"
+                  placeholder="Введите название департамента"
+                />
+              </div>
+              <button type="submit" className="btn btn-primary">
+                Создать
+              </button>
+            </form>,
+            document.body
+          )}
+        </>
       );
     default:
       return null;

@@ -74,16 +74,37 @@
     }
   }
   &__item {
+    display: flex;
+    align-items: center;
     padding: 20px 0 15px 15px;
     transition: all 0.5s;
     border-bottom: 1px solid #4d5c6e;
     color: var(--primary-color);
     text-decoration: none;
+    transition: all 1s;
     &:hover {
       background-color: var(--hover-color);
     }
+    &_closed {
+      justify-content: center;
+    }
     &_active {
       background-color: var(--hover-color);
+    }
+    svg {
+      width: 35px;
+      height: 20px;
+      transition: all 1s;
+    }
+  }
+  &__descr {
+    margin-left: 15px;
+    opacity: 1;
+    &_closed {
+      visibility: hidden;
+      display: none;
+      opacity: 0;
+      cursor: default;
     }
   }
   &__overlay {

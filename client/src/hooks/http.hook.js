@@ -8,7 +8,9 @@ export const useHttp = () => {
     try {
       const response = await fetch(url, { method, body, headers });
       if (!response.ok) {
-        throw new Error(`Невозможно соединиться по адресу - ${url}, статус: ${response.status}`);
+        throw new Error(
+          `Невозможно соединиться по адресу - ${url}, метод: ${method}, статус: ${response.status}`
+        );
       }
 
       const data = await response.json();
