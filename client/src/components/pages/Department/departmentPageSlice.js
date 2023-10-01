@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useHttp } from "../../../hooks/http.hook";
-import { useEffect, useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
 
 const initialState = {
   data: [],
-  dataLoadingStatus: "idle",
+  dataLoadingStatus: "",
+  dataCreateStatus: "",
+  dataUpdateStatus: "",
   actionWindow: false,
 };
 
@@ -14,60 +14,47 @@ export const fetchDepartments = createAsyncThunk("departments/fetchDepartments",
   return request("https://localhost:3001/api/Department");
 });
 
-// export const updateDepartment = createAsyncThunk(
-//   "departments/updateDepartment",
-//   async (department) => {
-//     const { request } = useHttp();
-//     // Здесь отправьте запрос на сервер для обновления данных в БД, например, через PUT или PATCH
-//     const updatedDepartment = await request(
-//       `https://localhost:3001/api/Department/${department.id}`,
-//       "PUT",
-//       JSON.stringify(department)
-//     );
-//     return updatedDepartment;
-//   }
-// );
-
-export const onDelete =
-  ((id, entityName) => {
+export const createDepartment = createAsyncThunk(
+  "departments/createDepartment",
+  async (newDepartment, { dispatch }) => {
     const { request } = useHttp();
-    const dispatch = useDispatch();
+    const response = await request(
+      "https://localhost:3001/api/Department",
+      "POST",
+      JSON.stringify(newDepartment)
+    );
+    console.log(response, "Успешно отправлено");
+    dispatch(fetchDepartments());
+    return response;
+  }
+);
 
-    request(`https://localhost:3001/api/${entityName}/${id}`, "DELETE")
-      .then((data) => console.log(data, "Deleted"))
-      .then(dispatch(departmentDeleted(id)))
-      .catch((err) => console.log(err));
-  },
-  []);
+export const updateDepartment = createAsyncThunk(
+  "departments/updateDepartment",
+  async ({ id, newDepartment }, { dispatch }) => {
+    const { request } = useHttp();
+    try {
+      const response = await request(
+        `https://localhost:3001/api/Department/${id}`,
+        "PUT",
+        JSON.stringify(newDepartment)
+      );
+      console.log(response, "Успешно отправлено");
+      dispatch(fetchDepartments());
+      return response;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+);
 
 const departmentPageSlice = createSlice({
   name: "departmentPage",
   initialState,
   reducers: {
-    departmentCreated: (state, action) => {
-      state.data.push(action.payload);
-    },
     departmentDeleted: (state, action) => {
       state.data = state.data.filter((item) => item.id !== action.payload);
-    },
-    departmentedUpdated: (state, action) => {
-      const updatedData = state.data.map((item) => {
-        if (item.id === action.payload.id) {
-          return action.payload;
-        }
-        return item;
-      });
-      state.data = updatedData;
-    },
-    dataListFetching: (state) => {
-      state.dataLoadingStatus = "loading";
-    },
-    dataListFetched: (state, action) => {
-      state.dataLoadingStatus = "idle";
-      state.data = action.payload;
-    },
-    dataListFetchingError: (state) => {
-      state.dataLoadingStatus = "error";
     },
     toogleActionMenu: (state) => {
       state.actionWindow = !state.actionWindow;
@@ -85,16 +72,24 @@ const departmentPageSlice = createSlice({
       .addCase(fetchDepartments.rejected, (state) => {
         state.dataLoadingStatus = "error";
       })
-      // .addCase(updateDepartment.fulfilled, (state, action) => {
-      //   // Здесь обновите данные в состоянии вашего хранилища, например:
-      //   const updatedData = state.data.map((item) => {
-      //     if (item.id === action.payload.id) {
-      //       return action.payload; // Заменить старые данные обновленными данными
-      //     }
-      //     return item;
-      //   });
-      //   state.data = updatedData;
-      // })
+      .addCase(createDepartment.pending, (state) => {
+        state.dataCreateStatus = "loading";
+      })
+      .addCase(createDepartment.fulfilled, (state) => {
+        state.dataCreateStatus = "idle";
+      })
+      .addCase(createDepartment.rejected, (state) => {
+        state.dataCreateStatus = "error";
+      })
+      .addCase(updateDepartment.pending, (state) => {
+        state.dataUpdateStatus = "loading"; //
+      })
+      .addCase(updateDepartment.fulfilled, (state) => {
+        state.dataUpdateStatus = "idle"; //
+      })
+      .addCase(updateDepartment.rejected, (state) => {
+        state.dataUpdateStatus = "error"; //
+      })
       .addDefaultCase(() => {});
   },
 });
@@ -107,8 +102,6 @@ export const {
   dataListFetching,
   dataListFetched,
   dataListFetchingError,
-  departmentCreated,
   departmentDeleted,
   toogleActionMenu,
-  departmentedUpdated,
 } = actions;

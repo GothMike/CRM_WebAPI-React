@@ -33,6 +33,9 @@ namespace CRM_WebAPI_React.Controllers
             if (entity == null)
                 return NotFound();
 
+            var responseObj = new { Message = $"{entity}" };
+
+
             return Ok(entity);
         }
 
@@ -46,8 +49,11 @@ namespace CRM_WebAPI_React.Controllers
 
             await _departmentService.CreateDepartmentAsync(entityDto);
 
-            return Ok($"Департамент {entityDto.Name} успешно создан!");
+            var responseObj = new { Message = $"Департамент {entityDto.Name} успешно создан!" };
+
+            return Ok(responseObj);
         }
+
 
         [HttpPut("{id}")]
         [ProducesResponseType(400)]
@@ -68,7 +74,10 @@ namespace CRM_WebAPI_React.Controllers
 
             await _departmentService.Update(entityDto, entity);
 
-            return Ok($"Департамент {entity.Name} успешно отредактирован");
+            var responseObj = new { Message = $"Департамент {entityDto.Name} успешно отредактирован!" };
+
+
+            return Ok(responseObj);
         }
 
         [HttpDelete("{id}")]
@@ -84,7 +93,9 @@ namespace CRM_WebAPI_React.Controllers
 
             await _departmentService.DeleteAsync(entity);
 
-            return Ok($"Департамент {entity.Name} успешно удалено");
+            var responseObj = new { Message = $"Департамент  успешно удален!" };
+
+            return Ok(responseObj);
         }
     }
 }
