@@ -3,6 +3,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import DataSearch from "../dataSearch/DataSearch";
 import DataFilter from "../dataFilter/DataFilter";
 import { useSelector } from "react-redux";
+import DataCreate from "../pages/Department/Actions/DataCreate";
 
 const SearchPanel = () => {
   const hiddenSidebar = useSelector((state) => state.searchPanel);
@@ -17,6 +18,7 @@ const SearchPanel = () => {
             <DataFilter />
           </InputGroup>
         </div>
+        <DataCreate />
       </div>
     </section>
   );

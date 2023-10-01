@@ -2,18 +2,27 @@ import { useHttp } from "../../../hooks/http.hook";
 import { useEffect, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
-import { createPortal } from "react-dom";
-
-import CloseButton from "react-bootstrap/CloseButton";
+import { searchData } from "../../dataActions/DataActions";
 import Button from "react-bootstrap/Button";
+import DataDelete from "./Actions/DataDelete";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fetchDepartments, departmentDeleted, departmentCreated } from "./departmentPageSlice";
+import {
+  fetchDepartments,
+  departmentDeleted,
+  toogleActionMenu,
+  departmentedUpdated,
+} from "./departmentPageSlice";
 
 import Spinner from "react-bootstrap/Spinner";
 import Table from "react-bootstrap/Table";
 
 const DepartmentData = () => {
+  const [departmentName, setDepartmentName] = useState("");
+
+  const dispatch = useDispatch();
+  const { request } = useHttp();
+
   const filteredDataSelector = createSelector(
     (state) => state.dataFilter.activeFilter,
     (state) => state.departmentPage.data,
@@ -32,33 +41,24 @@ const DepartmentData = () => {
     }
   );
 
-  const [departmentName, setDepartmentName] = useState("");
-
-  const [actionWindowIsOpened, setActionWindowIsOpened] = useState(false);
-
-  const onFormOpen = () => {
-    setActionWindowIsOpened(!actionWindowIsOpened);
-  };
-
-  const onCreate = (e) => {
+  const onUpdate = (e, id) => {
     e.preventDefault();
 
     const newDepartment = {
-      id: 0,
       name: departmentName,
     };
-    console.log(newDepartment);
 
-    request("https://localhost:3001/api/Department", "POST", JSON.stringify(newDepartment))
-      .then((res) => console.log(res, "Отправка успешна"))
-      .then(dispatch(departmentCreated(newDepartment)))
+    request(`https://localhost:3001/api/Department/${id}`, "PUT", JSON.stringify(newDepartment))
+      .then((res) => {
+        console.log(res, "Успешно отправлено");
+        dispatch(departmentedUpdated(newDepartment));
+      })
+      .then(dispatch(fetchDepartments(request)))
       .catch((err) => console.log(err));
 
-    console.log(JSON.stringify(newDepartment));
-    dispatch(fetchDepartments(request));
-
     setDepartmentName("");
-    setActionWindowIsOpened(!actionWindowIsOpened);
+    dispatch(toogleActionMenu());
+    dispatch(fetchDepartments(request));
   };
 
   const onDelete = useCallback((id) => {
@@ -72,19 +72,8 @@ const DepartmentData = () => {
     dispatch(fetchDepartments(request));
   }, []);
 
-  const searchData = (items, term) => {
-    if (term.length === 0) {
-      return items;
-    }
-    return items.filter((item) => {
-      return item.name.indexOf(term) > -1;
-    });
-  };
-
   const filteredData = useSelector(filteredDataSelector);
   const { dataLoadingStatus } = useSelector((state) => state.departmentPage);
-  const dispatch = useDispatch();
-  const { request } = useHttp();
 
   const renderData = (arr) => {
     if (arr.length === 0) {
@@ -103,12 +92,13 @@ const DepartmentData = () => {
           <td>0</td>
           <td>0</td>
           <td>
-            <button onClick={() => onDelete(id)} type="button" className="btn-trash btn-sm ">
-              <i className="fas fa-trash"></i>
-            </button>
-            <button>
-              <i class="fa-regular fa-pen-to-square"></i>
-            </button>
+            <Button onClick={() => onDelete(id)} className="btn-trash btn-sm " variant="danger">
+              <FontAwesomeIcon icon="fa-solid fa-trash" />
+            </Button>
+            <Button onClick={(e) => onUpdate(e, id)} className="btn-edit btn-sm " variant="warning">
+              <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
+            </Button>
+            <button></button>
           </td>
         </tr>
       );
@@ -116,6 +106,34 @@ const DepartmentData = () => {
   };
 
   const elements = renderData(filteredData);
+
+  // const Portal = (id) => {
+  //   dispatch(toogleActionMenu());
+  //   console.log(actionWindow);
+
+  //   const onUpdate = (e, id) => {
+  //     e.preventDefault();
+
+  //     const newDepartment = {
+  //       name: departmentName,
+  //     };
+
+  //     request(`https://localhost:3001/api/Department/${id}`, "PUT", JSON.stringify(newDepartment))
+  //       .then((res) => {
+  //         console.log(res, "Успешно отправлено");
+  //         dispatch(departmentedUpdated(newDepartment));
+  //       })
+  //       .then(dispatch(fetchDepartments(request)))
+  //       .catch((err) => console.log(err));
+
+  //     setDepartmentName("");
+  //     dispatch(toogleActionMenu());
+  //     dispatch(fetchDepartments(request));
+  //   };
+
+  //   console.log(id);
+
+  // };
 
   switch (dataLoadingStatus) {
     case "loading":
@@ -132,44 +150,10 @@ const DepartmentData = () => {
                 <th>Название</th>
                 <th>Количество сотрудников</th>
                 <th>Количество менеджеров</th>
-                <th>
-                  <Button onClick={onFormOpen} variant="warning">
-                    <FontAwesomeIcon icon="fa-solid fa-user-plus" />
-                  </Button>
-                </th>
               </tr>
             </thead>
             <tbody>{elements}</tbody>
           </Table>
-          {createPortal(
-            <form
-              className={`border p-4 shadow-lg rounded form ${
-                actionWindowIsOpened ? "form_active" : ""
-              }`}
-              onSubmit={onCreate}
-            >
-              <CloseButton onClick={onFormOpen} />
-              <div className="mb-3">
-                <label htmlFor="name" className="form-label fs-4">
-                  Название департамента
-                </label>
-                <input
-                  required
-                  value={departmentName}
-                  onChange={(e) => setDepartmentName(e.target.value)}
-                  type="text"
-                  name="name"
-                  className="form-control"
-                  id="name"
-                  placeholder="Введите название департамента"
-                />
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Создать
-              </button>
-            </form>,
-            document.body
-          )}
         </>
       );
     default:
